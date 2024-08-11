@@ -1,6 +1,6 @@
 phina.globalize();
 
-//console.log = function () { };  // ログを出す時にはコメントアウトする
+console.log = function () { };  // ログを出す時にはコメントアウトする
 
 const FPS = 60;  // 60フレ
 
