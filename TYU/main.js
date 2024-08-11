@@ -20,9 +20,9 @@ const ASSETS = {
         "ball1": "./resource/beer_64.png",
         "ball2": "./resource/alc_free_64.png",
         "ball3": "./resource/shouchu_64.png",
-        "ball4": "./resource/kobucha_64.png",
+        "ball4": "./resource/manipani_64.png",
 
-        "mini_ball": "./resource/balls_32.png",
+        "mini_ball": "./resource/balls_32.png?1",
 
         "rso0": "./resource/pole_256.png",
     },
