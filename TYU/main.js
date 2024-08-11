@@ -292,7 +292,6 @@ phina.define("TitleScene", {
         this.emuumemuuButton.onclick = function () {
             window.open('https://twitter.com/emuumemuu');
         };
-
     },
 
 
@@ -556,7 +555,7 @@ phina.define("GameScene", {
                 break;
             case GAME_MODE.END_INIT:
                 {
-                    var postText = "Tommy, Yasu & Utena\nタイム: " + this.nowTimeLabel.text;
+                    var postText = "Tommy, Yasu, and Utena\nタイム: " + this.nowTimeLabel.text;
                     var postURL = "https://iwasaku.github.io/test16/TYU/";
                     var postTags = "#ネムレス #NEMLESSS #始発待ちアンダーグラウンド";
                     this.xButton.onclick = function () {
