@@ -14,7 +14,7 @@ const ASSETS = {
     image: {
         "utena": "./resource/utena_128.png",
         "tommy": "./resource/tommy_128.png",
-        "yasu": "./resource/yasu_128.png",
+        "yasu": "./resource/yasu_128.png?1",
 
         "ball0": "./resource/nihonshu_64.png",
         "ball1": "./resource/beer_64.png",
