@@ -656,6 +656,7 @@ phina.define("Tommy", {
         this.radius = 48;
         this.anim.gotoAndPlay("stand");
         this.drink = 0.0;
+        this.drinkDelta = 0.005;
         this.ratio = 1.0;
         this.dir = (Math.random() < 0.5) ? 1 : -1;   // -1:左 1:右
         this.orgX = SCREEN_CENTER_X;
@@ -665,7 +666,7 @@ phina.define("Tommy", {
     update: function (app) {
         if ((gameMode != GAME_MODE.START_INIT) && (gameMode != GAME_MODE.START)) return;
 
-        this.drink -= 0.005;
+        this.drink -= this.drinkDelta;
         if (this.drink <= 0.0) {
             this.drink = 0.0;
             this.dir = (Math.random() < 0.5) ? 1 : -1;   // -1:左 1:右
@@ -800,6 +801,7 @@ phina.define("Ball", {
                 this.orgR = 32;
                 this.dspScl = 2;
                 this.drink = 1;
+                this.drinkDelta = 0.005;
                 this.spd = 8;
                 break;
             case 1:
@@ -810,6 +812,7 @@ phina.define("Ball", {
                 this.orgR = 32;
                 this.dspScl = 2;
                 this.drink = 1;
+                this.drinkDelta = 0.005;
                 this.spd = 9;
                 break;
             case 2:
@@ -820,6 +823,7 @@ phina.define("Ball", {
                 this.orgR = 32;
                 this.dspScl = 2;
                 this.drink = 0.5;
+                this.drinkDelta = 0.005;
                 this.spd = 10;
                 break;
             case 3:
@@ -830,16 +834,18 @@ phina.define("Ball", {
                 this.orgR = 32;
                 this.dspScl = 2;
                 this.drink = 5;
+                this.drinkDelta = 0.005;
                 this.spd = 5;
                 break;
             case 4:
-                // 昆布茶
+                // マニパニ
                 this.sprName = "ball4";
                 this.seName = "miss_se";
                 this.sprSize = 64;
                 this.orgR = 32;
                 this.dspScl = 2;
                 this.drink = 0;
+                this.drinkDelta = 0.1;
                 this.spd = 10;
                 break;
         }
@@ -889,13 +895,13 @@ phina.define("Ball", {
             SoundManager.play(this.seName);
             if (this.sprName === "ball4") {
                 tommy.ratio = 0.0;
-                tommy.drink = 0.0;
             } else {
-                if (tommy.drink > 0) tommy.ratio += 0.5;
+                if (tommy.drink > 0) tommy.ratio += 0.25;
                 else tommy.ratio = 1.0;
                 tommy.drink += this.drink * tommy.ratio;
                 if (tommy.drink >= 10) tommy.drink = 10;
             }
+            tommy.drinkDelta = this.drinkDelta;
             tommy.dir = (Math.random() < 0.5) ? 1 : -1;   // -1:左 1:右
 
             this.isDead = true;
