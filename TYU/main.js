@@ -385,6 +385,13 @@ phina.define("GameScene", {
         miniYasu = new MiniYasu().addChildTo(group5);
 
         // 弾倉
+        this.miniBallBg = RectangleShape({
+            width: 64,
+            height: 64 * 3.2,
+            padding: 0,
+            cornerRadius: 16,
+            fill: "white",
+        }).addChildTo(group5).setPosition(32, SCREEN_CENTER_Y + 512 + 16 + 12);
         ballReload = shuffle([0, 1, 2, 0, 1, 2, 0, 1, 3, 4]);
         ballMag = [ballReload[0], ballReload[1], ballReload[2]];
         for (let ii = 0; ii < 3; ii++) {
@@ -927,7 +934,7 @@ phina.define("MiniBall", {
         this.anim.fit = false;
         this.setInteractive(false);
         this.setBoundingType("circle");
-        this.setPosition(32, (SCREEN_HEIGHT - 256 - 80) - 64 * idx).setScale(2);
+        this.setPosition(32, (SCREEN_HEIGHT - 256 - 96 - 4) - 64 * idx).setScale(2);
         this.idx = idx;
         this.id = ballMag[this.idx];;
         this.anim.gotoAndPlay("ball" + this.id);
