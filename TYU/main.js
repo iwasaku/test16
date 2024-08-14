@@ -577,7 +577,8 @@ phina.define("GameScene", {
                     };
                     this.threadsButton.onclick = function () {
                         // https://developers.facebook.com/docs/threads/threads-web-intents/
-                        var shareURL = "https://www.threads.net/intent/post?text=" + encodeURIComponent(postText + "\n" + postTags + "\n") + "&url=" + encodeURIComponent(postURL);
+                        // web intentでのハッシュタグの扱いが環境（ブラウザ、iOS、Android）によって違いすぎるので『#』を削って通常の文字列にしておく
+                        var shareURL = "https://www.threads.net/intent/post?text=" + encodeURIComponent(postText + "\n\n" + postTags.replace(/#/g, "")) + "&url=" + encodeURIComponent(postURL);
                         window.open(shareURL);
                     };
 
