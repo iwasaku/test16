@@ -464,23 +464,23 @@ phina.define("GameScene", {
             width: 60,
             height: 60,
         }).addChildTo(group5);
-        this.bskyButton = Button({
-            text: String.fromCharCode(0xe900),
-            fontSize: 32,
-            fontFamily: "icomoon",
-            fill: "#7575EF",
-            x: SCREEN_CENTER_X - 160 + 80,
-            y: SCREEN_CENTER_Y + (SCREEN_CENTER_Y / 2),
-            cornerRadius: 8,
-            width: 60,
-            height: 60,
-        }).addChildTo(group5);
         this.threadsButton = Button({
             text: String.fromCharCode(0xe901),
             fontSize: 32,
             fontFamily: "icomoon",
             fill: "#7575EF",
             x: SCREEN_CENTER_X - 160,
+            y: SCREEN_CENTER_Y + (SCREEN_CENTER_Y / 2),
+            cornerRadius: 8,
+            width: 60,
+            height: 60,
+        }).addChildTo(group5);
+        this.bskyButton = Button({
+            text: String.fromCharCode(0xe900),
+            fontSize: 32,
+            fontFamily: "icomoon",
+            fill: "#7575EF",
+            x: SCREEN_CENTER_X - 160 + 80,
             y: SCREEN_CENTER_Y + (SCREEN_CENTER_Y / 2),
             cornerRadius: 8,
             width: 60,
@@ -500,12 +500,12 @@ phina.define("GameScene", {
 
         this.gameOverLabel.alpha = 0.0;
         this.xButton.alpha = 0.0;
-        this.bskyButton.alpha = 0.0;
         this.threadsButton.alpha = 0.0;
+        this.bskyButton.alpha = 0.0;
         this.restartButton.alpha = 0.0;
         this.xButton.sleep();
-        this.bskyButton.sleep();
         this.threadsButton.sleep();
+        this.bskyButton.sleep();
         this.restartButton.sleep();
 
         var self = this;
@@ -570,18 +570,17 @@ phina.define("GameScene", {
                         var shareURL = "https://x.com/intent/tweet?text=" + encodeURIComponent(postText + "\n" + postTags + "\n") + "&url=" + encodeURIComponent(postURL);
                         window.open(shareURL);
                     };
-                    this.bskyButton.onclick = function () {
-                        // https://docs.bsky.app/docs/advanced-guides/intent-links
-                        var shareURL = "https://bsky.app/intent/compose?text=" + encodeURIComponent(postText + "\n" + postTags + "\n" + postURL);
-                        window.open(shareURL);
-                    };
                     this.threadsButton.onclick = function () {
                         // https://developers.facebook.com/docs/threads/threads-web-intents/
                         // web intentでのハッシュタグの扱いが環境（ブラウザ、iOS、Android）によって違いすぎるので『#』を削って通常の文字列にしておく
                         var shareURL = "https://www.threads.net/intent/post?text=" + encodeURIComponent(postText + "\n\n" + postTags.replace(/#/g, "")) + "&url=" + encodeURIComponent(postURL);
                         window.open(shareURL);
                     };
-
+                    this.bskyButton.onclick = function () {
+                        // https://docs.bsky.app/docs/advanced-guides/intent-links
+                        var shareURL = "https://bsky.app/intent/compose?text=" + encodeURIComponent(postText + "\n" + postTags + "\n" + postURL);
+                        window.open(shareURL);
+                    };
                 }
                 gameMode = GAME_MODE.END;
             // FALLTHRU
