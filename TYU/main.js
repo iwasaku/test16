@@ -578,7 +578,9 @@ phina.define("GameScene", {
                     };
                     this.bskyButton.onclick = function () {
                         // https://docs.bsky.app/docs/advanced-guides/intent-links
-                        var shareURL = "https://bsky.app/intent/compose?text=" + encodeURIComponent(postText + "\n" + postTags + "\n" + postURL);
+                        // https://docs.bsky.app/docs/advanced-guides/post-richtext
+                        // 投稿で装飾されたテキストを処理するためにリッチ テキスト（HTML,Markdown）が使用されるので『\n』を『<br>』に置換する
+                        var shareURL = "https://bsky.app/intent/compose?text=" + encodeURIComponent((postText + "\n" + postTags + "\n" + postURL).replace(/\n/g, "<br>"));
                         window.open(shareURL);
                     };
                 }
