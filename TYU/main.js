@@ -126,6 +126,11 @@ let ballReload = [];    // リロード用
 let ballMag = [];       // 実際の残弾
 let gameMode = GAME_MODE.START_INIT;
 
+// 共有ボタン用
+let postText = null;
+const postURL = "https://iwasaku.github.io/test16/TYU/";
+const postTags = "#ネムレス #NEMLESSS #始発待ちアンダーグラウンド";
+
 phina.main(function () {
     let app = GameApp({
         startLabel: 'logo',
@@ -452,7 +457,9 @@ phina.define("GameScene", {
             x: SCREEN_CENTER_X,
             y: SCREEN_CENTER_Y,
         }).addChildTo(group5);
+        this.gameOverLabel.alpha = 0.0;
 
+        // X
         this.xButton = Button({
             text: String.fromCharCode(0xe902),
             fontSize: 32,
@@ -464,6 +471,15 @@ phina.define("GameScene", {
             width: 60,
             height: 60,
         }).addChildTo(group5);
+        this.xButton.onclick = function () {
+            // https://developer.x.com/en/docs/twitter-for-websites/tweet-button/guides/web-intent
+            var shareURL = "https://x.com/intent/tweet?text=" + encodeURIComponent(postText + "\n" + postTags + "\n") + "&url=" + encodeURIComponent(postURL);
+            window.open(shareURL);
+        };
+        this.xButton.alpha = 0.0;
+        this.xButton.sleep();
+
+        // threads
         this.threadsButton = Button({
             text: String.fromCharCode(0xe901),
             fontSize: 32,
@@ -475,6 +491,16 @@ phina.define("GameScene", {
             width: 60,
             height: 60,
         }).addChildTo(group5);
+        this.threadsButton.onclick = function () {
+            // https://developers.facebook.com/docs/threads/threads-web-intents/
+            // web intentでのハッシュタグの扱いが環境（ブラウザ、iOS、Android）によって違いすぎるので『#』を削って通常の文字列にしておく
+            var shareURL = "https://www.threads.net/intent/post?text=" + encodeURIComponent(postText + "\n\n" + postTags.replace(/#/g, "")) + "&url=" + encodeURIComponent(postURL);
+            window.open(shareURL);
+        };
+        this.threadsButton.alpha = 0.0;
+        this.threadsButton.sleep();
+
+        // Bluesky
         this.bskyButton = Button({
             text: String.fromCharCode(0xe900),
             fontSize: 32,
@@ -486,6 +512,16 @@ phina.define("GameScene", {
             width: 60,
             height: 60,
         }).addChildTo(group5);
+        this.bskyButton.onclick = function () {
+            // https://docs.bsky.app/docs/advanced-guides/intent-links
+            // https://docs.bsky.app/docs/advanced-guides/post-richtext
+            // 投稿で装飾されたテキストを処理するためにリッチ テキスト（HTML,Markdown）が使用されるので『\n』を『<br>』に置換する
+            var shareURL = "https://bsky.app/intent/compose?text=" + encodeURIComponent((postText + "\n" + postTags + "\n" + postURL).replace(/\n/g, "<br>"));
+            window.open(shareURL);
+        };
+        this.bskyButton.alpha = 0.0;
+        this.bskyButton.sleep();
+
         this.restartButton = Button({
             text: "RESTART",
             fontSize: 32,
@@ -497,22 +533,13 @@ phina.define("GameScene", {
             width: 240,
             height: 60,
         }).addChildTo(group5);
-
-        this.gameOverLabel.alpha = 0.0;
-        this.xButton.alpha = 0.0;
-        this.threadsButton.alpha = 0.0;
-        this.bskyButton.alpha = 0.0;
-        this.restartButton.alpha = 0.0;
-        this.xButton.sleep();
-        this.threadsButton.sleep();
-        this.bskyButton.sleep();
-        this.restartButton.sleep();
-
         var self = this;
         this.restartButton.onpointstart = function () {
             stageTimer = 0;
             self.exit();
         };
+        this.restartButton.alpha = 0.0;
+        this.restartButton.sleep();
 
         this.buttonAlpha = 0.0;
         if (!randomMode) randomSeed = 3557;
@@ -561,29 +588,7 @@ phina.define("GameScene", {
                 }
                 break;
             case GAME_MODE.END_INIT:
-                {
-                    var postText = "Tommy, Yasu, and Utena\nタイム: " + this.nowTimeLabel.text;
-                    var postURL = "https://iwasaku.github.io/test16/TYU/";
-                    var postTags = "#ネムレス #NEMLESSS #始発待ちアンダーグラウンド";
-                    this.xButton.onclick = function () {
-                        // https://developer.x.com/en/docs/twitter-for-websites/tweet-button/guides/web-intent
-                        var shareURL = "https://x.com/intent/tweet?text=" + encodeURIComponent(postText + "\n" + postTags + "\n") + "&url=" + encodeURIComponent(postURL);
-                        window.open(shareURL);
-                    };
-                    this.threadsButton.onclick = function () {
-                        // https://developers.facebook.com/docs/threads/threads-web-intents/
-                        // web intentでのハッシュタグの扱いが環境（ブラウザ、iOS、Android）によって違いすぎるので『#』を削って通常の文字列にしておく
-                        var shareURL = "https://www.threads.net/intent/post?text=" + encodeURIComponent(postText + "\n\n" + postTags.replace(/#/g, "")) + "&url=" + encodeURIComponent(postURL);
-                        window.open(shareURL);
-                    };
-                    this.bskyButton.onclick = function () {
-                        // https://docs.bsky.app/docs/advanced-guides/intent-links
-                        // https://docs.bsky.app/docs/advanced-guides/post-richtext
-                        // 投稿で装飾されたテキストを処理するためにリッチ テキスト（HTML,Markdown）が使用されるので『\n』を『<br>』に置換する
-                        var shareURL = "https://bsky.app/intent/compose?text=" + encodeURIComponent((postText + "\n" + postTags + "\n" + postURL).replace(/\n/g, "<br>"));
-                        window.open(shareURL);
-                    };
-                }
+                postText = "Tommy, Yasu, and Utena\nタイム: " + this.nowTimeLabel.text;
                 gameMode = GAME_MODE.END;
             // FALLTHRU
             case GAME_MODE.END:
